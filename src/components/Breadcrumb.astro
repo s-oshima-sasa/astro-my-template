@@ -1,0 +1,57 @@
+---
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const path = pathname.slice(base.length) || "/";
+const pageLabels: Record<string, string> = {
+  "/company": "会社概要",
+  "/service": "事業内容",
+  "/recruit": "採用情報",
+  "/news": "お知らせ",
+  "/contact": "お問い合わせ",
+  "/entry": "エントリー",
+  "/privacy": "プライバシーポリシー",
+  "/tags": "タグ一覧",
+};
+const items: { label: string; href?: string }[] = [
+  { label: "ホーム", href: `${base}/` },
+];
+
+if (path.startsWith("/posts/")) {
+  items.push({ label: "お知らせ", href: `${base}/news/` });
+}
+
+if (path.startsWith("/tags/")) {
+  items.push({ label: "お知らせ", href: `${base}/news/` });
+}
+items.push({ label: pageLabels[path] ?? pageTitle });
+---
+
+{
+  path !== "/" && (
+    <nav class="c-breadcrumb" aria-label="パンくずリスト">
+      <div class="l-container">
+        <ol class="c-breadcrumb__list" role="list">
+          {items.map((item, index) => (
+            <li class="c-breadcrumb__item">
+              {index > 0 && (
+                <span class="c-breadcrumb__separator" aria-hidden="true">
+                  &gt;
+                </span>
+              )}
+              {item.href ? (
+                <a href={item.href}>{item.label}</a>
+              ) : (
+                <span aria-current="page">{item.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </nav>
+  )
+}

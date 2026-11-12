@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NewsPost from "../../components/NewsPost.astro";
+export async function getStaticPaths() {
+  const allPosts = Object.values(
+    import.meta.glob("../posts/*.md", { eager: true }),
+  );
+  const uniqueTags = [
+    ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
+  ];
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter((post: any) =>
+      post.frontmatter.tags.includes(tag),
+    );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout pageTitle={tag}>
+  <main>
+    <div class="l-section">
+      <div class="l-container">
+        <p class="c-title">
+          {tag}<span class="small">のタグが付いた記事</span>
+        </p>
+        <ul class="p-newspage__list">
+          {
+            posts.map((post: any) => (
+              <NewsPost
+                url={post.url}
+                title={post.frontmatter.title}
+                pubDate={post.frontmatter.pubDate}
+                tags={post.frontmatter.tags}
+              />
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,19 @@
+@use "../../global"as g;
+
+/* レスポンシブ設定
+----------------------- */
+.u-sp-only {
+ display: none;
+
+ @include g.mq(sp) {
+  display: block;
+ }
+}
+
+.u-pc-only {
+ display: block;
+
+ @include g.mq(sp) {
+  display: none;
+ }
+}

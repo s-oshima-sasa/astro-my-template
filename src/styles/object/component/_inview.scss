@@ -1,0 +1,46 @@
+@use "../../global"as g;
+
+/* Inview
+----------------------- */
+
+.fadeIn {
+  opacity: 0;
+  transition: 3s;
+}
+
+.fadeIn.is-show {
+  opacity: 1;
+}
+
+.fadeIn_up {
+  opacity: 0;
+  transform: translate(0, 50%);
+  transition: 2s;
+}
+
+.fadeIn_up.is-show {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+.fadeIn_left {
+  opacity: 0;
+  transform: translate(-50%, 0);
+  transition: 2.5s;
+}
+
+.fadeIn_left.is-show {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+.fadeIn_right {
+  opacity: 0;
+  transform: translate(50%, 0);
+  transition: 2.5s;
+}
+
+.fadeIn_right.is-show {
+  transform: translate(0, 0);
+  opacity: 1;
+}

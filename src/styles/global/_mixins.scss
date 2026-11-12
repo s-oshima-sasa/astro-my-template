@@ -1,0 +1,21 @@
+@use "sass:map";
+
+//ブレイクポイント
+$breakpoints: ("container": "screen and (max-width: 1200px)",
+ "tab": "screen and (max-width: 1024px)",
+ "sp": "screen and (max-width: 767px)",
+ "sp-small": "screen and (max-width: 440px)",
+ "splan":"(orientation: landscape) and (max-width: 767px)",
+) !default;
+
+@mixin mq($breakpoint: sp) {
+ @media #{map.get($breakpoints, $breakpoint)} {
+  @content;
+ }
+}
+
+@mixin lan($breakpoint: splan) {
+ @media #{map.get($breakpoints, $breakpoint)} {
+  @content;
+ }
+}

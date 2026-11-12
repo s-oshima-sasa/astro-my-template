@@ -1,0 +1,18 @@
+---
+const { title, url, pubDate, tags } = Astro.props;
+const { frontmatter } = Astro.props;
+---
+
+<li class="p-news__item">
+  <a href={url} class="p-news__link">
+    <div class="p-news__head">
+      <div class="p-news__date">
+        {pubDate.toString().slice(0, 10)}
+      </div>
+      <div class="p-news__tag">{tags}</div>
+    </div>
+    <div class="p-news__txt">
+      {title}
+    </div>
+  </a>
+</li>

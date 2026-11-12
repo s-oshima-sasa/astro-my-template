@@ -1,0 +1,30 @@
+@use "../global"as g;
+
+/* 共通設定
+----------------------- */
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-size: 16px;
+	line-height: 1.6;
+
+	@include g.mq(sp) {
+		min-width: 320px;
+	}
+}
+
+a[href^="tel:"] {
+	pointer-events: none;
+
+	@include g.mq(sp) {
+		pointer-events: auto;
+	}
+}
+
+main {
+	background: #fff;
+	width: 100%;
+}

@@ -1,0 +1,72 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import type { MarkdownInstance } from "astro";
+const { frontmatter } = Astro.props;
+
+const allPosts = Object.values(
+  import.meta.glob<MarkdownInstance<{ pubDate: string | Date }>>(
+    "../pages/posts/*.md",
+    { eager: true },
+  ),
+).sort(
+  (a, b) =>
+    new Date(a.frontmatter.pubDate).getTime() -
+      new Date(b.frontmatter.pubDate).getTime() || a.file.localeCompare(b.file),
+);
+const currentIndex = allPosts.findIndex(
+  (post) => post.file === Astro.props.file,
+);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : undefined;
+const nextPost = currentIndex >= 0 ? allPosts[currentIndex + 1] : undefined;
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <div class="c-blog__area">
+    <div class="l-container">
+      <div class="c-blog__block">
+        <p class="c-blog__date">
+          {frontmatter.pubDate.toString().slice(0, 10)}
+        </p>
+        <div class="c-blog__tags">
+          {
+            frontmatter.tags.map((tag: string) => (
+              <p class="tag">
+                <a href={`/tags/${tag}`}>{tag}</a>
+              </p>
+            ))
+          }
+        </div>
+        <p class="c-blog__desc"><em>{frontmatter.description}</em></p>
+        <p class="c-blog__author">著者: {frontmatter.author}</p>
+        <div class="c-blog__pic">
+          <img
+            src={frontmatter.image.url}
+            alt={frontmatter.image.alt}
+            class="f-img"
+          />
+        </div>
+      </div>
+      <slot />
+      <div class="c-blog__arrow">
+        <div class="c-blog__prev">
+          {
+            prevPost && (
+              <a href={prevPost.url} rel="prev">
+                ≪ 前の記事へ
+              </a>
+            )
+          }
+        </div>
+        <div class="c-blog__next">
+          {
+            nextPost && (
+              <a href={nextPost.url} rel="next">
+                次の記事へ ≫
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

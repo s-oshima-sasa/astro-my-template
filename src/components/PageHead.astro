@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  english: string;
+  entry?: boolean;
+}
+
+const { title, english, entry = false } = Astro.props;
+---
+
+<section class:list={["c-pagehead", { "c-pagehead--entry": entry }]}>
+  <h2 class="c-pagehead__title">
+    {title}
+    <span>{english}</span>
+  </h2>
+</section>
